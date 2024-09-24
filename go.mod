@@ -3,6 +3,7 @@ module github.com/Komsorn-sookdang/go-template
 go 1.22.4
 
 require (
+	github.com/Komsorn-sookdang/go-template/pkg/model v0.0.1
 	github.com/gin-gonic/gin v1.10.0
 	go.uber.org/fx v1.22.2
 )
@@ -38,3 +39,5 @@ require (
 	google.golang.org/protobuf v1.34.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace github.com/Komsorn-sookdang/go-template/pkg/model => ./pkg/model

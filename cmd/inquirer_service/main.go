@@ -6,6 +6,9 @@ import (
 	"net/http"
 
 	"github.com/Komsorn-sookdang/go-template/internal/app/inquirer_service/router"
+	"github.com/Komsorn-sookdang/go-template/internal/app/inquirer_service/service"
+	"github.com/Komsorn-sookdang/go-template/internal/pkg/engine"
+	"github.com/Komsorn-sookdang/go-template/internal/pkg/repository"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/fx"
@@ -17,7 +20,7 @@ func init() {
 
 func StartServer(lifecycle fx.Lifecycle, r *gin.Engine) {
 	server := &http.Server{
-		Addr:    fmt.Sprintf(":%d", 8080),
+		Addr:    fmt.Sprintf(":%d", 8081),
 		Handler: r,
 	}
 
@@ -41,7 +44,9 @@ func main() {
 
 	app := fx.New(
 		/// repository.Module,
-		/// service.Module,
+		repository.Module,
+		engine.Module,
+		service.Module,
 		router.Module,
 		fx.Provide(router.SetupBaseGinRouter),
 		fx.Invoke(

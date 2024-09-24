@@ -2,23 +2,26 @@ package api
 
 import (
 	"github.com/Komsorn-sookdang/go-template/internal/pkg/engine/assessment"
+	"github.com/Komsorn-sookdang/go-template/pkg/model/response_model"
 )
 
 type AssessmentService interface {
-	GetAssessmentByID(assessmentID int64) (response_model.GetAssessmentByID, error)
+	GetAssessmentByID(assessmentID int64) (response_model.GetAssessmentByIDResponse, error)
 }
 
 type assessmentServiceImpl struct {
 	assessmentEngine assessment.AssessmentEngine
-	// assessmentService
 }
 
-func (s AssessmentService) GetAssessmentByID(assessmentID int64) (response_model.GetAssessmentByID, error) {
-	d, err := s.assessmentEngine.GetAssessmentByID(assessmentID)
+func (s assessmentServiceImpl) GetAssessmentByID(assessmentID int64) (response_model.GetAssessmentByIDResponse, error) {
+	d, err := s.assessmentEngine.FindAssessmentByID(assessmentID)
 	if err != nil {
-		return response_model.GetAssessmentByID{}, err
+		return response_model.GetAssessmentByIDResponse{}, err
 	}
-	return response_model.GetAssessmentByID{}
+	return response_model.GetAssessmentByIDResponse{
+		AssessmentID: d.AssessmentID,
+		Name:         d.Name,
+	}, nil
 }
 
 func NewAssessmentService(assessmentEngine assessment.AssessmentEngine) AssessmentService {
@@ -26,5 +29,3 @@ func NewAssessmentService(assessmentEngine assessment.AssessmentEngine) Assessme
 		assessmentEngine: assessmentEngine,
 	}
 }
-
-// https://github.com/Komsorn-sookdang/go-template.git
